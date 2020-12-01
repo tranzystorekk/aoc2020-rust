@@ -26,7 +26,7 @@ fn main() -> std::io::Result<()> {
             !remainders.insert(other)
         })
         .unwrap();
-    
+
     let first = 2020 - second;
 
     println!("{}", first * second);
