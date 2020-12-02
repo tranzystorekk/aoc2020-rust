@@ -1,14 +1,17 @@
+use std::io::BufRead;
+
 use aoc_utils::BufferedInput;
+use itertools::Itertools;
 use scan_fmt::scan_fmt;
 
 fn parse_input() -> std::io::Result<Vec<Policied>> {
     let input = BufferedInput::parse_args("Day 2: Password Philosophy - Part 1")?;
 
-    let result = input
-        .unwrapped_lines()
-        .map(|line| {
+    input
+        .lines()
+        .map_results(|line| {
             let (min, max, letter, password) =
-                scan_fmt!(&line, "{d}-{d} {}: {}", usize, usize, char, String).unwrap();
+                scan_fmt!(&line, "{d}-{d} {}: {}", _, _, _, _).unwrap();
 
             Policied {
                 min,
@@ -17,9 +20,7 @@ fn parse_input() -> std::io::Result<Vec<Policied>> {
                 password,
             }
         })
-        .collect();
-
-    Ok(result)
+        .collect()
 }
 
 struct Policied {
