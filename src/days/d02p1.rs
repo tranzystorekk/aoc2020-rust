@@ -38,7 +38,7 @@ struct Policied {
 
 impl Policied {
     pub fn verify(&self) -> bool {
-        let occurrences = self.password.chars().filter(|&c| c == self.letter).count();
+        let occurrences = self.password.matches(self.letter).count();
 
         occurrences >= self.min && occurrences <= self.max
     }
