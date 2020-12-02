@@ -1,5 +1,5 @@
 use aoc_utils::BufferedInput;
-use itertools::Itertools;
+use scan_fmt::scan_fmt;
 
 fn parse_input() -> std::io::Result<Vec<Policied>> {
     let input = BufferedInput::parse_args("Day 2: Password Philosophy - Part 1")?;
@@ -7,21 +7,14 @@ fn parse_input() -> std::io::Result<Vec<Policied>> {
     let result = input
         .unwrapped_lines()
         .map(|line| {
-            let words = line.split_whitespace();
-            let (range, ch, pass) = words.collect_tuple().unwrap();
-
-            let (min, max) = range
-                .split('-')
-                .map(|n| n.parse().unwrap())
-                .collect_tuple()
-                .unwrap();
-            let letter = ch.chars().next().unwrap();
+            let (min, max, letter, password) =
+                scan_fmt!(&line, "{d}-{d} {}: {}", usize, usize, char, String).unwrap();
 
             Policied {
                 min,
                 max,
                 letter,
-                password: pass.into(),
+                password,
             }
         })
         .collect();
