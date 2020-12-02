@@ -1,8 +1,6 @@
 use aoc_utils::BufferedInput;
 use itertools::Itertools;
 
-type Policied = (usize, usize, u8, String);
-
 fn parse_input() -> std::io::Result<Vec<Policied>> {
     let input = BufferedInput::parse_args("Day 2: Password Philosophy - Part 2")?;
 
@@ -19,28 +17,43 @@ fn parse_input() -> std::io::Result<Vec<Policied>> {
                 .unwrap();
             let letter = ch.as_bytes()[0];
 
-            (pos_a, pos_b, letter, pass.into())
+            Policied {
+                pos_a,
+                pos_b,
+                letter,
+                password: pass.into(),
+            }
         })
         .collect();
 
     Ok(result)
 }
 
-fn verify_policy(pos_a: usize, pos_b: usize, l: u8, password: &str) -> bool {
-    let bytes = password.as_bytes();
-    let first = bytes[pos_a - 1];
-    let second = bytes[pos_b - 1];
+struct Policied {
+    pos_a: usize,
+    pos_b: usize,
+    letter: u8,
+    password: String,
+}
 
-    [first, second].iter().filter(|&&b| b == l).count() == 1
+impl Policied {
+    pub fn verify(&self) -> bool {
+        let bytes = self.password.as_bytes();
+        let first = bytes[self.pos_a - 1];
+        let second = bytes[self.pos_b - 1];
+
+        [first, second]
+            .iter()
+            .filter(|&&b| b == self.letter)
+            .count()
+            == 1
+    }
 }
 
 fn main() -> std::io::Result<()> {
     let database = parse_input()?;
 
-    let n_valid = database
-        .into_iter()
-        .filter(|(a, b, l, password)| verify_policy(*a, *b, *l, password))
-        .count();
+    let n_valid = database.into_iter().filter(Policied::verify).count();
 
     println!("{}", n_valid);
 
