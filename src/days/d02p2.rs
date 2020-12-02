@@ -39,14 +39,10 @@ struct Policied {
 impl Policied {
     pub fn verify(&self) -> bool {
         let bytes = self.password.as_bytes();
-        let first = bytes[self.pos_a - 1];
-        let second = bytes[self.pos_b - 1];
+        let check_a = bytes[self.pos_a - 1] == self.letter;
+        let check_b = bytes[self.pos_b - 1] == self.letter;
 
-        [first, second]
-            .iter()
-            .filter(|&&b| b == self.letter)
-            .count()
-            == 1
+        check_a ^ check_b
     }
 }
 
