@@ -22,13 +22,22 @@ fn parse_input() -> std::io::Result<Vec<MaybePassport>> {
     Ok(passes)
 }
 
-fn validate_parsed<T, E, F: FnOnce(&T) -> bool>(parsed: Result<T, E>, pred: F) -> bool {
-    parsed.ok().filter(pred).is_some()
+trait Validate<T>: Sized {
+    fn to_option(self) -> Option<T>;
+
+    fn validate<F: FnOnce(&T) -> bool>(self, pred: F) -> bool {
+        self.to_option().filter(pred).is_some()
+    }
+}
+
+impl<T, E> Validate<T> for Result<T, E> {
+    fn to_option(self) -> Option<T> {
+        self.ok()
+    }
 }
 
 fn validate_year_range(val: &str, min: i32, max: i32) -> bool {
-    let parsed = val.parse::<i32>();
-    validate_parsed(parsed, |&n| n >= min && n <= max)
+    val.parse::<i32>().validate(|&n| n >= min && n <= max)
 }
 
 fn validate(validated: &MaybePassport) -> bool {
@@ -39,22 +48,15 @@ fn validate(validated: &MaybePassport) -> bool {
             "iyr" => validate_year_range(val, 2010, 2020),
             "eyr" => validate_year_range(val, 2020, 2030),
             "hgt" => {
-                let parsed = scan_fmt!(val, "{d}{}", i32, String);
-                validate_parsed(parsed, |(v, unit)| match unit.as_str() {
+                scan_fmt!(val, "{d}{}", i32, String).validate(|(v, unit)| match unit.as_str() {
                     "cm" => *v >= 150 && *v <= 193,
                     "in" => *v >= 59 && *v <= 76,
                     _ => false,
                 })
             }
-            "hcl" => {
-                let parsed = scan_fmt!(val, "#{[0-9a-f]}", String);
-                validate_parsed(parsed, |color| color.len() == 6)
-            }
+            "hcl" => scan_fmt!(val, "#{[0-9a-f]}", String).validate(|color| color.len() == 6),
             "ecl" => ["amb", "blu", "brn", "gry", "grn", "hzl", "oth"].contains(&val.as_str()),
-            "pid" => {
-                let parsed = scan_fmt!(val, "{[0-9]}", String);
-                validate_parsed(parsed, |id| id.len() == 9)
-            }
+            "pid" => scan_fmt!(val, "{[0-9]}", String).validate(|id| id.len() == 9),
             _ => false,
         })
         .count()
