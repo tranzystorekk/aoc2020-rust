@@ -17,9 +17,7 @@ fn parse_input() -> std::io::Result<Vec<MaybeFields>> {
         .split("\n\n")
         .map(|p| {
             p.split_whitespace()
-                .map(|kv| {
-                    scan_fmt!(kv, "{}:{*}", String).unwrap()
-                })
+                .map(|kv| scan_fmt!(kv, "{}:{*}", String).unwrap())
                 .collect()
         })
         .collect();
@@ -29,8 +27,9 @@ fn parse_input() -> std::io::Result<Vec<MaybeFields>> {
 
 fn validate(validated: &MaybeFields) -> bool {
     lazy_static! {
-        static ref PASS_FIELDS: MaybeFields = hashset! {"byr".into(), "iyr".into(),
-            "eyr".into(), "hgt".into(), "hcl".into(), "ecl".into(), "pid".into()};
+        static ref PASS_FIELDS: MaybeFields = hashset! {
+            "byr".into(), "iyr".into(), "eyr".into(), "hgt".into(), "hcl".into(), "ecl".into(), "pid".into()
+        };
     }
 
     PASS_FIELDS
