@@ -22,25 +22,20 @@ fn parse_input() -> std::io::Result<Vec<MaybePassport>> {
     Ok(passes)
 }
 
+fn validate_year_range(val: &str, min: i32, max: i32) -> bool {
+    val.parse::<i32>()
+        .ok()
+        .filter(|&n| n >= min && n <= max)
+        .is_some()
+}
+
 fn validate(validated: &MaybePassport) -> bool {
     validated
         .iter()
         .filter(|&(key, val)| match key.as_str() {
-            "byr" => val
-                .parse::<i32>()
-                .ok()
-                .filter(|&n| n >= 1920 && n <= 2002)
-                .is_some(),
-            "iyr" => val
-                .parse::<i32>()
-                .ok()
-                .filter(|&n| n >= 2010 && n <= 2020)
-                .is_some(),
-            "eyr" => val
-                .parse::<i32>()
-                .ok()
-                .filter(|&n| n >= 2020 && n <= 2030)
-                .is_some(),
+            "byr" => validate_year_range(val, 1920, 2002),
+            "iyr" => validate_year_range(val, 2010, 2020),
+            "eyr" => validate_year_range(val, 2020, 2030),
             "hgt" => scan_fmt!(val, "{d}{}", i32, String)
                 .ok()
                 .filter(|(v, unit)| match unit.as_str() {
