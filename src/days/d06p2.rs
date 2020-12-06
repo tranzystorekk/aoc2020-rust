@@ -20,7 +20,7 @@ fn unanimous_answers(group: &[String]) -> usize {
     let mut questions = [0; 26];
     let group_size = group.len();
 
-    for q in group.iter().flat_map(|person| person.as_bytes()) {
+    for q in group.iter().flat_map(String::as_bytes) {
         let index = (q - b'a') as usize;
         questions[index] += 1;
     }

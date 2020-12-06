@@ -19,7 +19,7 @@ fn parse_input() -> std::io::Result<Vec<Vec<String>>> {
 fn unique_answers(group: &[String]) -> usize {
     let mut questions = [false; 26];
 
-    for q in group.iter().flat_map(|person| person.as_bytes()) {
+    for q in group.iter().flat_map(String::as_bytes) {
         let index = (q - b'a') as usize;
         questions[index] = true;
     }
