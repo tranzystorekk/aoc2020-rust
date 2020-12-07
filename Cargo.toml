@@ -54,6 +54,14 @@ path = "src/days/d06p1.rs"
 name = "d06p2"
 path = "src/days/d06p2.rs"
 
+[[bin]]
+name = "d07p1"
+path = "src/days/d07p1.rs"
+
+[[bin]]
+name = "d07p2"
+path = "src/days/d07p2.rs"
+
 [dependencies]
 aoc-utils = "0.2.1"
 itertools = "0.9.0"
