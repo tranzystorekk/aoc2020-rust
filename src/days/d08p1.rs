@@ -65,7 +65,7 @@ impl Bootloader {
     fn step(&mut self) {
         self.exec();
 
-        self.program_counter = self.jump.take().unwrap_or(self.program_counter + 1);
+        self.program_counter = self.jump.take().unwrap_or_else(|| self.program_counter + 1);
     }
 
     fn exec(&mut self) {
