@@ -58,8 +58,10 @@ fn count_inner_bags(regulations: &Regulations, outer: &str) -> i32 {
 fn main() -> std::io::Result<()> {
     let regulations = parse_input()?;
 
-    let n_needed_bags = count_inner_bags(&regulations, "shiny gold");
+    let (elapsed, n_needed_bags) =
+        elapsed::measure_time(|| count_inner_bags(&regulations, "shiny gold"));
 
+    eprintln!("{}", elapsed);
     println!("{}", n_needed_bags);
 
     Ok(())

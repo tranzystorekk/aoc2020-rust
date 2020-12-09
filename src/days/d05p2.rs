@@ -21,14 +21,17 @@ fn to_id(pass: &str) -> i32 {
 fn main() -> std::io::Result<()> {
     let passes = parse_input()?;
 
-    let missing_id = passes
-        .iter()
-        .map(|pass| to_id(pass))
-        .sorted()
-        .tuple_windows()
-        .find_map(|(a, b)| Some(a + 1).filter(|_| b != a + 1))
-        .unwrap();
+    let (elapsed, missing_id) = elapsed::measure_time(|| {
+        passes
+            .iter()
+            .map(|pass| to_id(pass))
+            .sorted()
+            .tuple_windows()
+            .find_map(|(a, b)| Some(a + 1).filter(|_| b != a + 1))
+            .unwrap()
+    });
 
+    eprintln!("{}", elapsed);
     println!("{}", missing_id);
 
     Ok(())

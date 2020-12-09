@@ -21,16 +21,19 @@ fn main() -> std::io::Result<()> {
     let vertical_dist = land_map.len();
     let horizontal_dist = land_map[0].len();
 
-    let n_trees = get_slope(3, 1)
-        .take_while(|&(_, y)| y < vertical_dist)
-        .filter(|&(x, y)| {
-            let row = &land_map[y];
-            let mapped_x = x % horizontal_dist;
+    let (elapsed, n_trees) = elapsed::measure_time(|| {
+        get_slope(3, 1)
+            .take_while(|&(_, y)| y < vertical_dist)
+            .filter(|&(x, y)| {
+                let row = &land_map[y];
+                let mapped_x = x % horizontal_dist;
 
-            row[mapped_x]
-        })
-        .count();
+                row[mapped_x]
+            })
+            .count()
+    });
 
+    eprintln!("{}", elapsed);
     println!("{}", n_trees);
 
     Ok(())

@@ -15,21 +15,25 @@ fn main() -> std::io::Result<()> {
     let records = parse_input()?;
     let mut remainders = HashSet::new();
 
-    let second = records
-        .into_iter()
-        .find(|&entry| {
-            if remainders.contains(&entry) {
-                return true;
-            }
+    let (elapsed, result) = elapsed::measure_time(|| {
+        let second = records
+            .into_iter()
+            .find(|&entry| {
+                if remainders.contains(&entry) {
+                    return true;
+                }
 
-            let other = 2020 - entry;
-            !remainders.insert(other)
-        })
-        .unwrap();
+                let other = 2020 - entry;
+                !remainders.insert(other)
+            })
+            .unwrap();
 
-    let first = 2020 - second;
+        let first = 2020 - second;
+        first * second
+    });
 
-    println!("{}", first * second);
+    eprintln!("{}", elapsed);
+    println!("{}", result);
 
     Ok(())
 }

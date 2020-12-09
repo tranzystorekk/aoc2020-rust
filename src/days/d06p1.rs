@@ -30,8 +30,10 @@ fn unique_answers(group: &[String]) -> usize {
 fn main() -> std::io::Result<()> {
     let groups = parse_input()?;
 
-    let count: usize = groups.iter().map(|g| unique_answers(g)).sum();
+    let (elapsed, count): (_, usize) =
+        elapsed::measure_time(|| groups.iter().map(|g| unique_answers(g)).sum());
 
+    eprintln!("{}", elapsed);
     println!("{}", count);
 
     Ok(())

@@ -53,12 +53,15 @@ fn can_contain_shiny_gold(regulations: &Regulations, outer: &str) -> bool {
 fn main() -> std::io::Result<()> {
     let regulations = parse_input()?;
 
-    let n_accepted_containers = regulations
-        .keys()
-        .filter(|&c| c != "shiny gold")
-        .filter(|c| can_contain_shiny_gold(&regulations, c))
-        .count();
+    let (elapsed, n_accepted_containers) = elapsed::measure_time(|| {
+        regulations
+            .keys()
+            .filter(|&c| c != "shiny gold")
+            .filter(|c| can_contain_shiny_gold(&regulations, c))
+            .count()
+    });
 
+    eprintln!("{}", elapsed);
     println!("{}", n_accepted_containers);
 
     Ok(())

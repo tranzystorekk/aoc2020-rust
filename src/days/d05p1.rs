@@ -20,8 +20,10 @@ fn to_id(pass: &str) -> i32 {
 fn main() -> std::io::Result<()> {
     let passes = parse_input()?;
 
-    let max_id = passes.iter().map(|pass| to_id(pass)).max().unwrap();
+    let (elapsed, max_id) =
+        elapsed::measure_time(|| passes.iter().map(|pass| to_id(pass)).max().unwrap());
 
+    eprintln!("{}", elapsed);
     println!("{}", max_id);
 
     Ok(())

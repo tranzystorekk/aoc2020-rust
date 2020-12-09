@@ -32,12 +32,17 @@ fn try_sum_two(first: i32, records: &[i32]) -> Option<(i32, i32, i32)> {
 fn main() -> std::io::Result<()> {
     let records = parse_input()?;
 
-    let (first, second, third) = records
-        .iter()
-        .find_map(|&first| try_sum_two(first, &records))
-        .unwrap();
+    let (elapsed, result) = elapsed::measure_time(|| {
+        let (first, second, third) = records
+            .iter()
+            .find_map(|&first| try_sum_two(first, &records))
+            .unwrap();
 
-    println!("{}", first * second * third);
+        first * second * third
+    });
+
+    eprintln!("{}", elapsed);
+    println!("{}", result);
 
     Ok(())
 }

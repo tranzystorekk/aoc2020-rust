@@ -41,11 +41,14 @@ fn main() -> std::io::Result<()> {
     let raw_map = parse_input()?;
     let land = LandMap { map: raw_map };
 
-    let result: usize = [(1, 1), (3, 1), (5, 1), (7, 1), (1, 2)]
-        .iter()
-        .map(|&(w, h)| land.count_slope_trees(w, h))
-        .product();
+    let (elapsed, result): (_, usize) = elapsed::measure_time(|| {
+        [(1, 1), (3, 1), (5, 1), (7, 1), (1, 2)]
+            .iter()
+            .map(|&(w, h)| land.count_slope_trees(w, h))
+            .product()
+    });
 
+    eprintln!("{}", elapsed);
     println!("{}", result);
 
     Ok(())

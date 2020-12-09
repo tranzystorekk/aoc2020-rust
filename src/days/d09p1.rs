@@ -31,17 +31,20 @@ fn is_valid_window(window: &[u64]) -> bool {
 fn main() -> std::io::Result<()> {
     let encrypted = parse_input()?;
 
-    let result = encrypted
-        .windows(26)
-        .find_map(|w| {
-            if !is_valid_window(w) {
-                w.last().copied()
-            } else {
-                None
-            }
-        })
-        .unwrap();
+    let (elapsed, result) = elapsed::measure_time(|| {
+        encrypted
+            .windows(26)
+            .find_map(|w| {
+                if !is_valid_window(w) {
+                    w.last().copied()
+                } else {
+                    None
+                }
+            })
+            .unwrap()
+    });
 
+    eprintln!("{}", elapsed);
     println!("{}", result);
 
     Ok(())

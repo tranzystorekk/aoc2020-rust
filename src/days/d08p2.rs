@@ -89,29 +89,32 @@ fn main() -> std::io::Result<()> {
     use Instr::*;
     let boot_code = parse_input()?;
 
-    let result = boot_code
-        .iter()
-        .enumerate()
-        .filter(|&(_, instr)| matches!(instr, Jmp(_) | Nop(_)))
-        .find_map(|(i, &instr)| {
-            let mut copy = boot_code.clone();
-            let new_instr = match instr {
-                Jmp(n) => Nop(n),
-                Nop(n) => Jmp(n),
-                _ => unreachable!(),
-            };
+    let (elapsed, result) = elapsed::measure_time(|| {
+        boot_code
+            .iter()
+            .enumerate()
+            .filter(|&(_, instr)| matches!(instr, Jmp(_) | Nop(_)))
+            .find_map(|(i, &instr)| {
+                let mut copy = boot_code.clone();
+                let new_instr = match instr {
+                    Jmp(n) => Nop(n),
+                    Nop(n) => Jmp(n),
+                    _ => unreachable!(),
+                };
 
-            copy[i] = new_instr;
+                copy[i] = new_instr;
 
-            let mut bootloader = Bootloader::new(copy);
-            if bootloader.run_till_loop_or_termination() {
-                Some(bootloader.acc())
-            } else {
-                None
-            }
-        })
-        .unwrap();
+                let mut bootloader = Bootloader::new(copy);
+                if bootloader.run_till_loop_or_termination() {
+                    Some(bootloader.acc())
+                } else {
+                    None
+                }
+            })
+            .unwrap()
+    });
 
+    eprintln!("{}", elapsed);
     println!("{}", result);
 
     Ok(())

@@ -42,8 +42,9 @@ fn validate(validated: &MaybeFields) -> bool {
 fn main() -> std::io::Result<()> {
     let passes = parse_input()?;
 
-    let n_valid = passes.into_iter().filter(validate).count();
+    let (elapsed, n_valid) = elapsed::measure_time(|| passes.into_iter().filter(validate).count());
 
+    eprintln!("{}", elapsed);
     println!("{}", n_valid);
 
     Ok(())

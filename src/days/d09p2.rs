@@ -53,33 +53,38 @@ fn find_contiguous_sum(partials: &[u64], sum: u64) -> Option<(usize, usize)> {
 fn main() -> std::io::Result<()> {
     let encrypted = parse_input()?;
 
-    let searched = encrypted
-        .windows(26)
-        .find_map(|w| {
-            if !is_valid_window(w) {
-                w.last().copied()
-            } else {
-                None
-            }
-        })
-        .unwrap();
+    let (elapsed, result) = elapsed::measure_time(|| {
+        let searched = encrypted
+            .windows(26)
+            .find_map(|w| {
+                if !is_valid_window(w) {
+                    w.last().copied()
+                } else {
+                    None
+                }
+            })
+            .unwrap();
 
-    let partial_sums: Vec<_> = itertools::chain(std::iter::once(&0), &encrypted)
-        .scan(0, |acc, v| {
-            *acc += v;
-            Some(*acc)
-        })
-        .collect();
+        let partial_sums: Vec<_> = itertools::chain(std::iter::once(&0), &encrypted)
+            .scan(0, |acc, v| {
+                *acc += v;
+                Some(*acc)
+            })
+            .collect();
 
-    let (index_a, index_b) = find_contiguous_sum(&partial_sums, searched).unwrap();
+        let (index_a, index_b) = find_contiguous_sum(&partial_sums, searched).unwrap();
 
-    let (min, max) = encrypted[index_a..index_b]
-        .iter()
-        .minmax()
-        .into_option()
-        .unwrap();
+        let (min, max) = encrypted[index_a..index_b]
+            .iter()
+            .minmax()
+            .into_option()
+            .unwrap();
 
-    println!("{}", min + max);
+        min + max
+    });
+
+    eprintln!("{}", elapsed);
+    println!("{}", result);
 
     Ok(())
 }

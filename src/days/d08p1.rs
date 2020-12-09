@@ -83,11 +83,14 @@ impl Bootloader {
 fn main() -> std::io::Result<()> {
     let boot_code = parse_input()?;
 
-    let mut bootloader = Bootloader::new(boot_code);
-    bootloader.run_till_loop();
+    let (elapsed, result) = elapsed::measure_time(|| {
+        let mut bootloader = Bootloader::new(boot_code);
+        bootloader.run_till_loop();
 
-    let result = bootloader.acc();
+        bootloader.acc()
+    });
 
+    eprintln!("{}", elapsed);
     println!("{}", result);
 
     Ok(())
