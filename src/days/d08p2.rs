@@ -55,7 +55,17 @@ impl Bootloader {
                 return true;
             }
 
-            if self.program_counter > program_size || !visited.insert(self.program_counter) {
+            if self.program_counter > program_size {
+                return false;
+            }
+
+            // check if the most recent jump address has already been visited
+            if self
+                .jump
+                .take()
+                .into_iter()
+                .any(|jump_addr| !visited.insert(jump_addr))
+            {
                 return false;
             }
 
@@ -70,7 +80,7 @@ impl Bootloader {
     fn step(&mut self) {
         self.exec();
 
-        self.program_counter = self.jump.take().unwrap_or_else(|| self.program_counter + 1);
+        self.program_counter = self.jump.unwrap_or_else(|| self.program_counter + 1);
     }
 
     fn exec(&mut self) {
