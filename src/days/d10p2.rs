@@ -32,9 +32,12 @@ fn prepare_connections(sorted: &[i32]) -> Connections {
 }
 
 fn traverse_connections(sorted: &[i32], connections: &Connections, target: i32) -> u64 {
+    // store counts of distinct paths from key to target
     let mut dynamic_counts = hashmap! { target => 1 };
     let with_outlet = itertools::chain(std::iter::once(&0), sorted);
 
+    // dynamic programming: going back down the topologically sorted joltage values
+    // and summing up all paths to target
     for &el in with_outlet.rev() {
         let current: u64 = connections
             .get(&el)
