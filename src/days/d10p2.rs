@@ -2,7 +2,6 @@ use std::{collections::HashMap, io::BufRead};
 
 use aoc_utils::BufferedInput;
 use itertools::Itertools;
-use maplit::hashmap;
 
 type Connections = HashMap<i32, Vec<i32>>;
 
@@ -16,10 +15,12 @@ fn parse_input() -> std::io::Result<Vec<i32>> {
 }
 
 fn prepare_connections(sorted: &[i32]) -> Connections {
-    itertools::chain(std::iter::once(&0), sorted)
+    sorted
+        .iter()
         .enumerate()
         .map(|(i, &current)| {
-            let slice = &sorted[i..];
+            let start_index = i + 1;
+            let slice = &sorted[start_index..];
             let valid_connections = slice
                 .iter()
                 .copied()
@@ -31,14 +32,17 @@ fn prepare_connections(sorted: &[i32]) -> Connections {
         .collect()
 }
 
-fn traverse_connections(sorted: &[i32], connections: &Connections, target: i32) -> u64 {
+fn traverse_connections(sorted: &[i32], connections: &Connections) -> u64 {
     // store counts of distinct paths from key to target
-    let mut dynamic_counts = hashmap! { target => 1 };
-    let with_outlet = itertools::chain(std::iter::once(&0), sorted);
+    let mut dynamic_counts = {
+        let mut res = HashMap::with_capacity(sorted.len());
+        res.insert(sorted.last().copied().unwrap(), 1);
+        res
+    };
 
     // dynamic programming: going back down the topologically sorted joltage values
     // and summing up all paths to target
-    for &el in with_outlet.rev() {
+    for &el in sorted.iter().rev() {
         let current: u64 = connections
             .get(&el)
             .into_iter()
@@ -56,13 +60,13 @@ fn main() -> std::io::Result<()> {
     let mut adapters = parse_input()?;
 
     let (elapsed, result) = elapsed::measure_time(|| {
+        adapters.push(0);
         adapters.sort_unstable();
         adapters.push(adapters.last().unwrap() + 3);
 
         let connections = prepare_connections(&adapters);
-        let socket = adapters.last().copied().unwrap();
 
-        traverse_connections(&adapters, &connections, socket)
+        traverse_connections(&adapters, &connections)
     });
 
     eprintln!("{}", elapsed);
