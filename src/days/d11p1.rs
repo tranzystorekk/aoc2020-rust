@@ -1,7 +1,7 @@
 use std::{collections::HashMap, io::BufRead};
 
 use aoc_utils::BufferedInput;
-use itertools::Itertools;
+use itertools::iproduct;
 
 type Grid = HashMap<(i32, i32), bool>;
 
@@ -34,7 +34,7 @@ fn neighbors((x, y): (i32, i32)) -> impl Iterator<Item = (i32, i32)> {
     let (start_x, end_x) = (x - 1, x + 1);
     let (start_y, end_y) = (y - 1, y + 1);
 
-    Itertools::cartesian_product(start_x..=end_x, start_y..=end_y).filter(move |&pos| pos != (x, y))
+    iproduct!(start_x..=end_x, start_y..=end_y).filter(move |&pos| pos != (x, y))
 }
 
 fn next_iteration(current: &Grid) -> Grid {
