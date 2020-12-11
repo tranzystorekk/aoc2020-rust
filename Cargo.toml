@@ -86,6 +86,14 @@ path = "src/days/d10p1.rs"
 name = "d10p2"
 path = "src/days/d10p2.rs"
 
+[[bin]]
+name = "d11p1"
+path = "src/days/d11p1.rs"
+
+[[bin]]
+name = "d11p2"
+path = "src/days/d11p2.rs"
+
 [dependencies]
 aoc-utils = "0.2.1"
 elapsed = "0.1.2"
