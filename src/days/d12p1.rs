@@ -36,13 +36,14 @@ enum Nav {
     F(i32),
 }
 
-struct Position {
+struct NavigationChip {
     x: i32,
     y: i32,
+    // 0 => N, 1 => E, 2 => S, 3 => W
     direction: i32,
 }
 
-impl Position {
+impl NavigationChip {
     pub fn new() -> Self {
         Self {
             x: 0,
@@ -92,13 +93,13 @@ fn main() -> std::io::Result<()> {
     let navigation = parse_input()?;
 
     let (elapsed, result) = elapsed::measure_time(|| {
-        let mut position = Position::new();
+        let mut chip = NavigationChip::new();
 
         for instr in navigation {
-            position.execute(instr);
+            chip.execute(instr);
         }
 
-        position.manhattan()
+        chip.manhattan()
     });
 
     eprintln!("{}", elapsed);
