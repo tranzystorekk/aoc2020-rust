@@ -28,26 +28,26 @@ fn parse_input() -> std::io::Result<Vec<(i64, i64)>> {
 
 fn mod_inverse(n: i64, modulus: i64) -> i64 {
     let mut current_mod = modulus;
-    let (mut x, mut y) = (1, 0);
     let mut current_n = n;
+    let (mut x, mut y) = (1, 0);
 
     while current_n > 1 {
-        let q = current_n / current_mod;
-        let mut t = current_mod;
+        let quotient = current_n / current_mod;
 
+        let tmp_mod = current_mod;
         current_mod = current_n % current_mod;
-        current_n = t;
-        t = y;
+        current_n = tmp_mod;
 
-        y = x - (q * y);
-        x = t;
+        let tmp_y = y;
+        y = x - (quotient * y);
+        x = tmp_y;
     }
 
     if x < 0 {
-        x + modulus
-    } else {
-        x
+        return x + modulus;
     }
+
+    x
 }
 
 fn main() -> std::io::Result<()> {
