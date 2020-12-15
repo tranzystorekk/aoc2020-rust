@@ -32,8 +32,6 @@ fn play_memory(nums: Vec<usize>, target_size: usize) -> usize {
         .map(|(i, n)| (n, (i, None)))
         .collect();
 
-    visited.reserve(target_size - start_size);
-
     for turn in start_size..target_size {
         if let Some((last_turn, Some(before_last))) = visited.get(&last).copied() {
             let age = last_turn - before_last;
