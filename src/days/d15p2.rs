@@ -11,39 +11,26 @@ fn parse_input() -> std::io::Result<Vec<usize>> {
     Ok(sequence)
 }
 
-type Entries = HashMap<usize, (usize, Option<usize>)>;
-
-fn insert_turn(entries: &mut Entries, val: usize, turn: usize) {
-    entries
-        .entry(val)
-        .and_modify(|(last, maybe_before)| {
-            maybe_before.replace(*last);
-            *last = turn;
-        })
-        .or_insert_with(|| (turn, None));
-}
+type Entries = HashMap<usize, usize>;
 
 fn play_memory(nums: Vec<usize>, target_size: usize) -> usize {
     let start_size = nums.len();
-    let mut last = nums.last().copied().unwrap();
-    let mut visited: HashMap<usize, (usize, Option<usize>)> = nums
-        .into_iter()
-        .enumerate()
-        .map(|(i, n)| (n, (i, None)))
-        .collect();
+    let n_turns = target_size - 1;
+    let mut next = nums.last().copied().unwrap();
+    let mut visited: Entries = nums.into_iter().enumerate().map(|(i, n)| (n, i)).collect();
 
-    for turn in start_size..target_size {
-        if let Some((last_turn, Some(before_last))) = visited.get(&last).copied() {
-            let age = last_turn - before_last;
-            insert_turn(&mut visited, age, turn);
-            last = age;
-        } else {
-            insert_turn(&mut visited, 0, turn);
-            last = 0;
-        }
+    for turn in start_size..n_turns {
+        let current = next;
+
+        next = visited
+            .get(&current)
+            .map(|&last_turn| turn - last_turn)
+            .unwrap_or_default();
+
+        visited.insert(current, turn);
     }
 
-    last
+    next
 }
 
 fn main() -> std::io::Result<()> {
