@@ -14,19 +14,13 @@ fn parse_input() -> std::io::Result<Vec<usize>> {
 type Entries = HashMap<usize, (usize, Option<usize>)>;
 
 fn insert_turn(entries: &mut Entries, val: usize, turn: usize) {
-    match entries.get_mut(&val) {
-        Some((last, Some(before_last))) => {
-            *before_last = *last;
+    entries
+        .entry(val)
+        .and_modify(|(last, maybe_before)| {
+            maybe_before.replace(*last);
             *last = turn;
-        }
-        Some((last, prev @ None)) => {
-            prev.replace(*last);
-            *last = turn;
-        }
-        _ => {
-            entries.insert(val, (turn, None));
-        }
-    }
+        })
+        .or_insert_with(|| (turn, None));
 }
 
 fn play_memory(nums: Vec<usize>, target_size: usize) -> usize {
