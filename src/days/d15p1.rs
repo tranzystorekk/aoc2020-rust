@@ -1,6 +1,6 @@
 use aoc_utils::BufferedInput;
 
-fn parse_input() -> std::io::Result<Vec<i32>> {
+fn parse_input() -> std::io::Result<Vec<usize>> {
     let input = BufferedInput::parse_args("Day 15: Rambunctious Recitation - Part 1")?;
 
     let line = input.unwrapped_lines().next().unwrap();
@@ -9,7 +9,7 @@ fn parse_input() -> std::io::Result<Vec<i32>> {
     Ok(sequence)
 }
 
-fn play_memory(mut nums: Vec<i32>, target_size: usize) -> Vec<i32> {
+fn play_memory(mut nums: Vec<usize>, target_size: usize) -> usize {
     nums.reserve(target_size);
 
     while nums.len() < target_size {
@@ -23,20 +23,16 @@ fn play_memory(mut nums: Vec<i32>, target_size: usize) -> Vec<i32> {
             .map(|n| n + 1)
             .unwrap_or_default();
 
-        nums.push(next as i32);
+        nums.push(next);
     }
 
-    nums
+    nums.last().copied().unwrap()
 }
 
 fn main() -> std::io::Result<()> {
     let starting_numbers = parse_input()?;
 
-    let (elapsed, result) = elapsed::measure_time(|| {
-        let all_nums = play_memory(starting_numbers, 2020);
-
-        all_nums.last().copied().unwrap()
-    });
+    let (elapsed, result) = elapsed::measure_time(|| play_memory(starting_numbers, 2020));
 
     eprintln!("{}", elapsed);
     println!("{}", result);
