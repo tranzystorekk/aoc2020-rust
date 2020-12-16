@@ -91,8 +91,11 @@ impl Req {
         tickets
             .iter()
             .fold(candidates, |cands, ticket| {
-                let matching = ticket.iter().positions(|&val| self.is_valid(val)).collect();
-                cands.intersection(&matching).copied().collect()
+                ticket
+                    .iter()
+                    .positions(|&val| self.is_valid(val))
+                    .filter(|pos| cands.contains(pos))
+                    .collect()
             })
             .iter()
             .copied()
@@ -109,9 +112,10 @@ fn main() -> std::io::Result<()> {
 
         let mut positions_left: HashSet<usize> = (0..my_ticket.len()).collect();
         let mut fields_left: HashSet<Req> = reqs.into_iter().collect();
-        let mut depart_fields = Vec::with_capacity(6);
+        let mut result = 1;
+        let mut n_departs = 0;
 
-        while depart_fields.len() < 6 {
+        while n_departs < 6 {
             let (pos, field) = fields_left
                 .iter()
                 .copied()
@@ -125,11 +129,12 @@ fn main() -> std::io::Result<()> {
             fields_left.remove(&field);
 
             if field.is_depart() {
-                depart_fields.push(pos);
+                result *= my_ticket[pos];
+                n_departs += 1;
             }
         }
 
-        depart_fields.into_iter().map(|i| my_ticket[i]).product()
+        result
     });
 
     eprintln!("{}", elapsed);
