@@ -59,16 +59,17 @@ fn parse_input() -> std::io::Result<(Vec<Req>, Vec<Ticket>, Ticket)> {
     Ok((reqs, tickets, my_ticket))
 }
 
+type Range = (u64, u64);
 type Ticket = Vec<u64>;
 
-#[derive(Debug, Hash, PartialEq, Eq, Clone, Copy)]
+#[derive(Hash, PartialEq, Eq, Clone, Copy)]
 enum Req {
-    Depart((u64, u64), (u64, u64)),
-    Other((u64, u64), (u64, u64)),
+    Depart(Range, Range),
+    Other(Range, Range),
 }
 
 impl Req {
-    pub fn to_ranges(&self) -> ((u64, u64), (u64, u64)) {
+    pub fn to_ranges(&self) -> (Range, Range) {
         match *self {
             Req::Depart(a, b) | Req::Other(a, b) => (a, b),
         }
@@ -87,28 +88,32 @@ impl Req {
         a_valid() || b_valid()
     }
 
-    pub fn check_matching(&self, tickets: &[Ticket], candidates: HashSet<usize>) -> Option<usize> {
-        tickets
-            .iter()
-            .fold(candidates, |cands, ticket| {
-                ticket
-                    .iter()
-                    .positions(|&val| self.is_valid(val))
-                    .filter(|pos| cands.contains(pos))
-                    .collect()
-            })
-            .iter()
-            .copied()
-            .exactly_one()
-            .ok()
+    pub fn check_column(&self, column: &[u64]) -> bool {
+        column.iter().all(|&val| self.is_valid(val))
     }
 }
 
+fn transpose(table: Vec<Vec<u64>>) -> Vec<Vec<u64>> {
+    let inner_size = table[0].len();
+    let mut result = Vec::with_capacity(inner_size);
+
+    for i in 0..inner_size {
+        let column = table.iter().map(|row| row[i]).collect();
+        result.push(column);
+    }
+
+    result
+}
+
 fn main() -> std::io::Result<()> {
-    let (reqs, mut tickets, my_ticket) = parse_input()?;
+    let (reqs, tickets, my_ticket) = parse_input()?;
 
     let (elapsed, result): (_, u64) = elapsed::measure_time(|| {
-        tickets.retain(|ticket| ticket.iter().all(|&v| reqs.iter().any(|r| r.is_valid(v))));
+        let valid = tickets
+            .into_iter()
+            .filter(|ticket| ticket.iter().all(|&v| reqs.iter().any(|r| r.is_valid(v))))
+            .collect();
+        let columns = transpose(valid);
 
         let mut positions_left: HashSet<usize> = (0..my_ticket.len()).collect();
         let mut fields_left: HashSet<Req> = reqs.into_iter().collect();
@@ -120,7 +125,12 @@ fn main() -> std::io::Result<()> {
                 .iter()
                 .copied()
                 .find_map(|req| {
-                    req.check_matching(&tickets, positions_left.clone())
+                    positions_left
+                        .iter()
+                        .copied()
+                        .filter(|&pos| req.check_column(&columns[pos]))
+                        .exactly_one()
+                        .ok()
                         .map(|pos| (pos, req))
                 })
                 .unwrap();
