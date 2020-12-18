@@ -36,8 +36,8 @@ impl Token {
 }
 
 fn parse_infix(s: &str) -> Vec<Op> {
-    let mut result = Vec::new();
-    let mut ops = Vec::new();
+    let mut result = Vec::with_capacity(s.len());
+    let mut ops = Vec::with_capacity(s.len());
 
     let atoms = s.split_whitespace().flat_map(str::chars);
     for atom in atoms {
@@ -76,7 +76,7 @@ fn parse_infix(s: &str) -> Vec<Op> {
 }
 
 fn eval(rpn: Vec<Op>) -> u64 {
-    let mut partials = Vec::new();
+    let mut partials = Vec::with_capacity(rpn.len());
 
     for el in rpn {
         match el {
