@@ -1,13 +1,10 @@
-use std::{
-    collections::{HashMap, HashSet},
-    io::Read,
-};
+use std::{collections::HashMap, io::Read};
 
 use aoc_utils::BufferedInput;
 use itertools::Itertools;
 use scan_fmt::scan_fmt;
 
-fn parse_input() -> std::io::Result<(Rules, HashSet<Vec<u8>>)> {
+fn parse_input() -> std::io::Result<(Rules, Vec<Vec<u8>>)> {
     let mut input = BufferedInput::parse_args("Day 19: Monster Messages - Part 1")?;
     let mut file = String::new();
     input.read_to_string(&mut file)?;
@@ -50,44 +47,58 @@ enum Rule {
     Symbol(u8),
 }
 
-fn count_matches(rules: &Rules, messages: &HashSet<Vec<u8>>) -> usize {
-    let mut stack = vec![(vec![], vec![0])];
-    let mut n_matches = 0;
+fn check_matches(rules: &Rules, message: &[u8]) -> bool {
+    let size = message.len();
+    let mut stack = vec![(0, vec![0])];
 
-    while let Some((mut matched, mut current)) = stack.pop() {
-        if let Some(id) = current.pop() {
-            let alternatives = &rules[&id];
+    while let Some((index, mut current)) = stack.pop() {
+        let id = current.pop().unwrap();
+        let alternatives = &rules[&id];
 
-            for rule in alternatives {
-                match rule {
-                    Rule::Compound(ids) => {
-                        let mut cl = current.clone();
-                        let elems = ids.iter().copied().rev();
-                        cl.extend(elems);
+        for rule in alternatives {
+            match rule {
+                Rule::Compound(ids) => {
+                    let mut cl = current.clone();
+                    let elems = ids.iter().copied().rev();
+                    cl.extend(elems);
 
-                        stack.push((matched.clone(), cl));
+                    stack.push((index, cl));
+                }
+                &Rule::Symbol(byte) => {
+                    if byte != message[index] {
+                        break;
                     }
-                    &Rule::Symbol(byte) => {
-                        matched.push(byte);
-                        if current.is_empty() {
-                            n_matches += messages.contains(&matched) as usize;
-                        } else {
-                            stack.push((matched, current));
-                        }
-                        break; // a symbol rule contains only that symbol
+
+                    let new_index = index + 1;
+                    let is_at_end = new_index == size;
+                    let no_more_rules = current.is_empty();
+
+                    if is_at_end && no_more_rules {
+                        return true;
                     }
+
+                    if !is_at_end && !no_more_rules {
+                        stack.push((new_index, current));
+                    }
+
+                    break; // a symbol rule contains only that symbol
                 }
             }
         }
     }
 
-    n_matches
+    false
 }
 
 fn main() -> std::io::Result<()> {
     let (rules, messages) = parse_input()?;
 
-    let (elapsed, result) = elapsed::measure_time(|| count_matches(&rules, &messages));
+    let (elapsed, result) = elapsed::measure_time(|| {
+        messages
+            .into_iter()
+            .filter(|m| check_matches(&rules, m))
+            .count()
+    });
 
     eprintln!("{}", elapsed);
     println!("{}", result);
