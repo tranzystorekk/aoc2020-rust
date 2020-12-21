@@ -36,6 +36,7 @@ fn main() -> std::io::Result<()> {
             acc
         });
 
+        // find possible carrier ingredients for each allergen
         let mut matches = HashMap::with_capacity(allergens.len());
 
         for &alg in &allergens {
@@ -53,6 +54,7 @@ fn main() -> std::io::Result<()> {
             matches.insert(alg, possible_carriers);
         }
 
+        // incrementally scan for carriers that perfectly match an allergen
         let mut mappings = Vec::with_capacity(matches.len());
 
         while !matches.is_empty() {
