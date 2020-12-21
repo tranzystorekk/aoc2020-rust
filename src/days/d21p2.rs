@@ -36,7 +36,7 @@ fn main() -> std::io::Result<()> {
             acc
         });
 
-        let mut matches = HashMap::new();
+        let mut matches = HashMap::with_capacity(allergens.len());
 
         for &alg in &allergens {
             let possible_carriers = foods
@@ -53,25 +53,24 @@ fn main() -> std::io::Result<()> {
             matches.insert(alg, possible_carriers);
         }
 
-        let mut mappings = Vec::new();
+        let mut mappings = Vec::with_capacity(matches.len());
 
         while !matches.is_empty() {
-            let matching = matches
+            let matching_allergen = matches
                 .iter()
-                .find_map(|(&alg, ings)| {
-                    ings.iter()
-                        .exactly_one()
-                        .ok()
-                        .map(|ing| (alg.clone(), ing.clone()))
-                })
+                .find_map(|(&alg, ings)| Some(alg).filter(|_| ings.len() == 1))
                 .unwrap();
 
-            matches.remove(&matching.0);
+            let matching_ingredient = matches
+                .remove(matching_allergen)
+                .and_then(|ings| ings.into_iter().next())
+                .unwrap();
+
             for ings in matches.values_mut() {
-                ings.remove(&matching.1);
+                ings.remove(&matching_ingredient);
             }
 
-            mappings.push(matching);
+            mappings.push((matching_allergen, matching_ingredient));
         }
 
         mappings.sort_unstable_by(|(alg_a, _), (alg_b, _)| alg_a.cmp(alg_b));
