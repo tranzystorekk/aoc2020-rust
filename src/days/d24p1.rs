@@ -1,7 +1,4 @@
-use std::{
-    collections::HashMap,
-    io::BufRead,
-};
+use std::{collections::HashMap, io::BufRead};
 
 use aoc_utils::BufferedInput;
 use hex2d::{Coordinate, Direction};
@@ -61,7 +58,7 @@ fn main() -> std::io::Result<()> {
             for dir in tile_line(&line) {
                 current_tile = current_tile + dir;
             }
-            
+
             let color = floor.entry(current_tile).or_default();
             *color = !*color;
         }
