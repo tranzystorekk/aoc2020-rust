@@ -53,13 +53,9 @@ fn prepare_floor(instructions: Vec<String>) -> Floor {
     let mut floor = Floor::new();
 
     for line in instructions {
-        let mut current_tile = Coordinate::new(0, 0);
+        let ref_tile = tile_line(&line).fold(Coordinate::new(0, 0), |tile, dir| tile + dir);
 
-        for dir in tile_line(&line) {
-            current_tile = current_tile + dir;
-        }
-
-        let color = floor.entry(current_tile).or_default();
+        let color = floor.entry(ref_tile).or_default();
         *color = !*color;
     }
 
