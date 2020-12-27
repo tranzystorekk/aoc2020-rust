@@ -12,8 +12,7 @@ fn parse_input() -> std::io::Result<Vec<String>> {
     input.lines().collect()
 }
 
-type Coord = Coordinate<i32>;
-type Floor = HashMap<Coord, bool>;
+type Floor = HashMap<Coordinate, bool>;
 
 fn tile_line(description: &str) -> impl Iterator<Item = Direction> + '_ {
     let bytes = description.as_bytes();
@@ -57,7 +56,7 @@ fn main() -> std::io::Result<()> {
         let mut floor = Floor::new();
 
         for line in lines {
-            let mut current_tile = Coord::new(0, 0);
+            let mut current_tile = Coordinate::new(0, 0);
 
             for dir in tile_line(&line) {
                 current_tile = current_tile + dir;
