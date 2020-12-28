@@ -46,7 +46,7 @@ fn prepare_list(initial: Vec<usize>) -> (usize, Vec<usize>) {
     (start, result)
 }
 
-fn get_cups(current: usize, list: &[usize]) -> [usize; 3] {
+fn get_moved(current: usize, list: &[usize]) -> [usize; 3] {
     let a = list[current];
     let b = list[a];
     let c = list[b];
@@ -62,7 +62,7 @@ fn get_stars(list: &[usize]) -> (usize, usize) {
 }
 
 fn next_iteration(current: usize, list: &mut Vec<usize>) -> usize {
-    let moved = get_cups(current, list);
+    let moved = get_moved(current, list);
 
     let size = list.len();
     let mut dest = (current + size - 1) % size;
@@ -71,14 +71,12 @@ fn next_iteration(current: usize, list: &mut Vec<usize>) -> usize {
         dest = (dest + size - 1) % size;
     }
 
-    let first_index = moved.first().copied().unwrap();
-    let last_index = moved.last().copied().unwrap();
-    let next = list[last_index];
-    let after_dest = list[dest];
-
     // labels of interesting regions:
     // CUR -> A -> B -> C -> NXT
     // DST -> AFT
+    let [a, _b, c] = moved;
+    let next = list[c];
+    let after_dest = list[dest];
 
     // after reconnections:
     // CUR -> NXT
@@ -88,10 +86,10 @@ fn next_iteration(current: usize, list: &mut Vec<usize>) -> usize {
     list[current] = next;
 
     // DST -> A
-    list[dest] = first_index;
+    list[dest] = a;
 
     // C -> AFT
-    list[last_index] = after_dest;
+    list[c] = after_dest;
 
     next
 }
