@@ -183,6 +183,10 @@ name = "d23p1"
 path = "src/days/d23p1.rs"
 
 [[bin]]
+name = "d23p2"
+path = "src/days/d23p2.rs"
+
+[[bin]]
 name = "d24p1"
 path = "src/days/d24p1.rs"
 
