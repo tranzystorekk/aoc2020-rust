@@ -58,11 +58,11 @@ fn check_matches(rules: &Rules, message: &[u8]) -> bool {
         for rule in alternatives {
             match rule {
                 Rule::Compound(ids) => {
-                    let mut cl = current.clone();
-                    let elems = ids.iter().copied().rev();
-                    cl.extend(elems);
+                    let mut next = current.clone();
+                    let elems = itertools::rev(ids);
+                    next.extend(elems);
 
-                    stack.push((index, cl));
+                    stack.push((index, next));
                 }
                 &Rule::Symbol(byte) => {
                     if byte != message[index] {
