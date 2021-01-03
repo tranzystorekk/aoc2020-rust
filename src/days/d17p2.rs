@@ -64,7 +64,7 @@ fn next_iteration(current: &Grid) -> Grid {
         }
 
         let new_state = match (state, n_active) {
-            (true, n) if n < 2 || n > 3 => false,
+            (true, n) if !(2..=3).contains(&n) => false,
             (false, 3) => true,
             (state, _) => state,
         };
