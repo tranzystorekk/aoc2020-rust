@@ -201,14 +201,8 @@ path = "src/days/d25p1.rs"
 [dependencies]
 aoc-utils = "0.2.1"
 elapsed = "0.1.2"
+hex2d = { version = "1.0.0", default-features = false }
 itertools = "0.10.0"
 lazy_static = "1.4.0"
 maplit = "1.0.2"
-
-[dependencies.hex2d]
-version = "1.0.0"
-default-features = false
-
-[dependencies.scan_fmt]
-version = "0.2.5"
-default-features = false
+scan_fmt = { version = "0.2.5", default-features = false }
