@@ -8,7 +8,7 @@ fn parse_input() -> std::io::Result<Vec<u64>> {
 
     input
         .lines()
-        .map_results(|line| line.parse().unwrap())
+        .map_ok(|line| line.parse().unwrap())
         .collect()
 }
 

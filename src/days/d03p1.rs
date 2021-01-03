@@ -8,7 +8,7 @@ fn parse_input() -> std::io::Result<Vec<Vec<bool>>> {
 
     input
         .lines()
-        .map_results(|line| line.chars().map(|c| c == '#').collect())
+        .map_ok(|line| line.chars().map(|c| c == '#').collect())
         .collect()
 }
 

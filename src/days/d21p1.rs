@@ -8,7 +8,7 @@ fn parse_input() -> std::io::Result<Vec<(HashSet<String>, HashSet<String>)>> {
 
     input
         .lines()
-        .map_results(|line| {
+        .map_ok(|line| {
             let (ings, algs) = line
                 .strip_suffix(')')
                 .unwrap()

@@ -8,7 +8,7 @@ fn parse_input() -> std::io::Result<Vec<Nav>> {
 
     input
         .lines()
-        .map_results(|line| {
+        .map_ok(|line| {
             let (c, n) = line.split_at(1);
 
             match (c, n.parse().unwrap()) {

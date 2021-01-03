@@ -9,7 +9,7 @@ fn parse_input() -> std::io::Result<Vec<Instr>> {
 
     input
         .lines()
-        .map_results(|line| {
+        .map_ok(|line| {
             let (instr, n) = scan_fmt!(&line, "{} {}", String, i32).unwrap();
 
             match instr.as_str() {

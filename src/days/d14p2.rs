@@ -9,7 +9,7 @@ fn parse_input() -> std::io::Result<Vec<Instr>> {
 
     input
         .lines()
-        .map_results(|line| {
+        .map_ok(|line| {
             if line.starts_with("mask") {
                 let mask_string = scan_fmt!(&line, "mask = {}", String).unwrap();
                 let mut mask = [MaskBit::None; 36];

@@ -9,7 +9,7 @@ fn parse_input() -> std::io::Result<Vec<Policied>> {
 
     input
         .lines()
-        .map_results(|line| {
+        .map_ok(|line| {
             let (min, max, letter, password) =
                 scan_fmt!(&line, "{d}-{d} {}: {}", _, _, _, _).unwrap();
 

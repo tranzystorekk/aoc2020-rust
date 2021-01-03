@@ -10,7 +10,7 @@ fn parse_input() -> std::io::Result<Vec<i32>> {
 
     input
         .lines()
-        .map_results(|line| line.parse().unwrap())
+        .map_ok(|line| line.parse().unwrap())
         .collect()
 }
 

@@ -10,7 +10,7 @@ fn parse_input() -> std::io::Result<Regulations> {
 
     input
         .lines()
-        .map_results(|line| {
+        .map_ok(|line| {
             let (outer, contents) = line.split(" contain ").collect_tuple().unwrap();
             let outer = outer.split_whitespace().take(2).join(" ");
 
