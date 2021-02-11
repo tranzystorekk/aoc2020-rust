@@ -84,7 +84,7 @@ fn main() -> std::io::Result<()> {
 
         checker
             .iter()
-            .filter_map(|(id, n)| (*n == 2).then(|| *id))
+            .filter_map(|(&id, &n)| (n == 2).then(|| id))
             .product()
     });
 
