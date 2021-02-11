@@ -38,7 +38,7 @@ fn main() -> std::io::Result<()> {
         for &alg in &allergens {
             let possible_carriers = foods
                 .iter()
-                .filter_map(|(ings, algs)| Some(ings).filter(|_| algs.contains(alg)))
+                .filter_map(|(ings, algs)| algs.contains(alg).then(|| ings))
                 .fold(HashSet::new(), |acc, ings| {
                     if acc.is_empty() {
                         ings.clone()

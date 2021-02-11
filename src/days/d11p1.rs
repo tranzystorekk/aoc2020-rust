@@ -21,11 +21,7 @@ fn prepare_grid(rows: Vec<String>) -> Grid {
             let x = i % row_size;
             let y = i / row_size;
 
-            if c == 'L' {
-                Some(((x as i32, y as i32), false))
-            } else {
-                None
-            }
+            (c == 'L').then(|| ((x as i32, y as i32), false))
         })
         .collect()
 }

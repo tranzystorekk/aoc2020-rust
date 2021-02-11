@@ -114,11 +114,9 @@ fn main() -> std::io::Result<()> {
                 copy[i] = new_instr;
 
                 let mut bootloader = Bootloader::new(copy);
-                if bootloader.run_till_loop_or_termination() {
-                    Some(bootloader.acc())
-                } else {
-                    None
-                }
+                bootloader
+                    .run_till_loop_or_termination()
+                    .then(|| bootloader.acc())
             })
             .unwrap()
     });

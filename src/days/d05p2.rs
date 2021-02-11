@@ -27,7 +27,7 @@ fn main() -> std::io::Result<()> {
             .map(|pass| to_id(pass))
             .sorted_unstable()
             .tuple_windows()
-            .find_map(|(a, b)| Some(a + 1).filter(|_| b != a + 1))
+            .find_map(|(a, b)| (b != a + 1).then(|| a + 1))
             .unwrap()
     });
 
