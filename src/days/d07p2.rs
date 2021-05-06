@@ -11,7 +11,7 @@ fn parse_input() -> std::io::Result<Regulations> {
     input
         .lines()
         .map_ok(|line| {
-            let (outer, contents) = line.split(" contain ").collect_tuple().unwrap();
+            let (outer, contents) = line.split_once(" contain ").unwrap();
             let outer = outer.split_whitespace().take(2).join(" ");
 
             let contents = contents

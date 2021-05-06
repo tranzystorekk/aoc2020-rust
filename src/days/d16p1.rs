@@ -16,7 +16,7 @@ fn parse_input() -> std::io::Result<(Requirements, Vec<Ticket>)> {
         .split('\n')
         .map(|line| {
             let ranges = line.split(": ").nth(1).unwrap();
-            let (a, b) = ranges.split(" or ").collect_tuple().unwrap();
+            let (a, b) = ranges.split_once(" or ").unwrap();
 
             let (a_from, a_to) = a
                 .split('-')

@@ -15,8 +15,8 @@ fn parse_input() -> std::io::Result<(Vec<Req>, Vec<Ticket>, Ticket)> {
         .unwrap()
         .split('\n')
         .map(|line| {
-            let (name, ranges) = line.split(": ").collect_tuple().unwrap();
-            let (a, b) = ranges.split(" or ").collect_tuple().unwrap();
+            let (name, ranges) = line.split_once(": ").unwrap();
+            let (a, b) = ranges.split_once(" or ").unwrap();
 
             let a_range = a
                 .split('-')

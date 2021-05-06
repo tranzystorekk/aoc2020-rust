@@ -12,8 +12,7 @@ fn parse_input() -> std::io::Result<Vec<(HashSet<String>, HashSet<String>)>> {
             let (ings, algs) = line
                 .strip_suffix(')')
                 .unwrap()
-                .split(" (contains ")
-                .collect_tuple()
+                .split_once(" (contains ")
                 .unwrap();
 
             (
