@@ -38,7 +38,7 @@ fn parse_infix(s: &str) -> Vec<Op> {
     let atoms = s.split_whitespace().flat_map(str::chars);
     for atom in atoms {
         match atom {
-            op @ '+' | op @ '*' => {
+            op @ ('+' | '*') => {
                 while let Some(t @ Token::Op(_)) = ops.last() {
                     result.push(t.into_op());
                     ops.pop();

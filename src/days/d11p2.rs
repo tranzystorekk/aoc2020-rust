@@ -1,4 +1,4 @@
-use std::{array::IntoIter as ArrayIter, collections::HashMap, io::BufRead};
+use std::{collections::HashMap, io::BufRead};
 
 use aoc_utils::BufferedInput;
 
@@ -38,7 +38,7 @@ fn scan_visible(grid: &Grid, (x, y): (i32, i32), w: i32, h: i32) -> usize {
         (1, -1),
     ];
 
-    for (horizontal, vertical) in ArrayIter::new(directional_vectors) {
+    for (horizontal, vertical) in directional_vectors {
         let start = (x + horizontal, y + vertical);
         let found = itertools::iterate(start, |(x, y)| (x + horizontal, y + vertical))
             .take_while(|&(x, y)| x >= 0 && y >= 0 && x < w && y < h)
