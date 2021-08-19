@@ -37,7 +37,7 @@ impl<T, E> Validate<T> for Result<T, E> {
 }
 
 fn validate_year_range(val: &str, min: i32, max: i32) -> bool {
-    val.parse::<i32>().validate(|&n| n >= min && n <= max)
+    val.parse::<i32>().validate(|n| (min..=max).contains(n))
 }
 
 fn validate(validated: &MaybePassport) -> bool {
@@ -49,8 +49,8 @@ fn validate(validated: &MaybePassport) -> bool {
             "eyr" => validate_year_range(val, 2020, 2030),
             "hgt" => {
                 scan_fmt!(val, "{d}{}", i32, String).validate(|(v, unit)| match unit.as_str() {
-                    "cm" => *v >= 150 && *v <= 193,
-                    "in" => *v >= 59 && *v <= 76,
+                    "cm" => (150..=193).contains(v),
+                    "in" => (59..=76).contains(v),
                     _ => false,
                 })
             }
