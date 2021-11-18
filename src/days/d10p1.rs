@@ -6,10 +6,7 @@ use itertools::Itertools;
 fn parse_input() -> std::io::Result<Vec<i32>> {
     let input = BufferedInput::parse_args("Day 10: Adapter Array - Part 1")?;
 
-    input
-        .lines()
-        .map_ok(|line| line.parse().unwrap())
-        .collect()
+    input.lines().map_ok(|line| line.parse().unwrap()).collect()
 }
 
 fn main() -> std::io::Result<()> {

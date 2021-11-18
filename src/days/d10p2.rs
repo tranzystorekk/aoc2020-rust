@@ -8,10 +8,7 @@ type Connections = HashMap<i32, Vec<i32>>;
 fn parse_input() -> std::io::Result<Vec<i32>> {
     let input = BufferedInput::parse_args("Day 10: Adapter Array - Part 2")?;
 
-    input
-        .lines()
-        .map_ok(|line| line.parse().unwrap())
-        .collect()
+    input.lines().map_ok(|line| line.parse().unwrap()).collect()
 }
 
 fn prepare_connections(sorted: &[i32]) -> Connections {

@@ -6,10 +6,7 @@ use itertools::Itertools;
 fn parse_input() -> std::io::Result<Vec<u64>> {
     let input = BufferedInput::parse_args("Day 9: Encoding Error - Part 1")?;
 
-    input
-        .lines()
-        .map_ok(|line| line.parse().unwrap())
-        .collect()
+    input.lines().map_ok(|line| line.parse().unwrap()).collect()
 }
 
 fn is_valid_window(window: &[u64]) -> bool {
