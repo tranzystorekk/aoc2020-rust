@@ -22,14 +22,11 @@ fn transforms(subject: u64) -> impl Iterator<Item = u64> {
 fn main() -> std::io::Result<()> {
     let (card_pub, door_pub) = parse_input()?;
 
-    let (elapsed, result) = elapsed::measure_time(|| {
+    aoc_utils::measure_and_print(|| {
         let card_loop_size = transforms(7).position(|v| v == card_pub).unwrap();
 
         transforms(door_pub).nth(card_loop_size).unwrap()
     });
-
-    eprintln!("{}", elapsed);
-    println!("{}", result);
 
     Ok(())
 }

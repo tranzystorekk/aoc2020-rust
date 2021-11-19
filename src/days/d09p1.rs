@@ -28,7 +28,7 @@ fn is_valid_window(window: &[u64]) -> bool {
 fn main() -> std::io::Result<()> {
     let encrypted = parse_input()?;
 
-    let (elapsed, result) = elapsed::measure_time(|| {
+    aoc_utils::measure_and_print(|| {
         encrypted
             .windows(26)
             .find_map(|w| {
@@ -40,9 +40,6 @@ fn main() -> std::io::Result<()> {
             })
             .unwrap()
     });
-
-    eprintln!("{}", elapsed);
-    println!("{}", result);
 
     Ok(())
 }

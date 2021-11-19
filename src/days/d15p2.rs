@@ -36,10 +36,7 @@ fn play_memory(nums: Vec<usize>, target_size: usize) -> usize {
 fn main() -> std::io::Result<()> {
     let starting_numbers = parse_input()?;
 
-    let (elapsed, result) = elapsed::measure_time(|| play_memory(starting_numbers, 30_000_000));
-
-    eprintln!("{}", elapsed);
-    println!("{}", result);
+    aoc_utils::measure_and_print(|| play_memory(starting_numbers, 30_000_000));
 
     Ok(())
 }

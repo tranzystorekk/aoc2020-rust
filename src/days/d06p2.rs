@@ -34,11 +34,7 @@ fn unanimous_answers(group: &[String]) -> usize {
 fn main() -> std::io::Result<()> {
     let groups = parse_input()?;
 
-    let (elapsed, count): (_, usize) =
-        elapsed::measure_time(|| groups.iter().map(|g| unanimous_answers(g)).sum());
-
-    eprintln!("{}", elapsed);
-    println!("{}", count);
+    aoc_utils::measure_and_print::<usize, _>(|| groups.iter().map(|g| unanimous_answers(g)).sum());
 
     Ok(())
 }

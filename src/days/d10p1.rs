@@ -12,7 +12,7 @@ fn parse_input() -> std::io::Result<Vec<i32>> {
 fn main() -> std::io::Result<()> {
     let mut adapters = parse_input()?;
 
-    let (elapsed, result) = elapsed::measure_time(|| {
+    aoc_utils::measure_and_print(|| {
         adapters.sort_unstable();
         adapters.push(adapters.last().unwrap() + 3);
 
@@ -31,9 +31,6 @@ fn main() -> std::io::Result<()> {
 
         ones * threes
     });
-
-    eprintln!("{}", elapsed);
-    println!("{}", result);
 
     Ok(())
 }

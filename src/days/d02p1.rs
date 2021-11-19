@@ -41,11 +41,7 @@ impl Policied {
 fn main() -> std::io::Result<()> {
     let database = parse_input()?;
 
-    let (elapsed, n_valid) =
-        elapsed::measure_time(|| database.into_iter().filter(Policied::verify).count());
-
-    eprintln!("{}", elapsed);
-    println!("{}", n_valid);
+    aoc_utils::measure_and_print(|| database.into_iter().filter(Policied::verify).count());
 
     Ok(())
 }

@@ -60,7 +60,7 @@ type Image = Vec<Vec<u8>>;
 fn main() -> std::io::Result<()> {
     let images = parse_input()?;
 
-    let (elapsed, result): (_, u64) = elapsed::measure_time(|| {
+    aoc_utils::measure_and_print::<u64, _>(|| {
         let bordered: Vec<_> = images
             .iter()
             .map(|(id, img)| {
@@ -87,9 +87,6 @@ fn main() -> std::io::Result<()> {
             .filter_map(|(&id, &n)| (n == 2).then(|| id))
             .product()
     });
-
-    eprintln!("{}", elapsed);
-    println!("{}", result);
 
     Ok(())
 }

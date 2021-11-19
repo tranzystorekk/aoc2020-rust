@@ -26,7 +26,7 @@ fn parse_input() -> std::io::Result<Vec<(HashSet<String>, HashSet<String>)>> {
 fn main() -> std::io::Result<()> {
     let foods = parse_input()?;
 
-    let (elapsed, result) = elapsed::measure_time(|| {
+    aoc_utils::measure_and_print(|| {
         let allergens = foods.iter().fold(HashSet::new(), |mut acc, (_, algs)| {
             acc.extend(algs);
             acc
@@ -55,9 +55,6 @@ fn main() -> std::io::Result<()> {
             .filter(|ing| !carriers.contains(ing))
             .count()
     });
-
-    eprintln!("{}", elapsed);
-    println!("{}", result);
 
     Ok(())
 }

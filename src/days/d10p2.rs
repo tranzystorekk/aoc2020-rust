@@ -56,7 +56,7 @@ fn traverse_connections(sorted: &[i32], connections: &Connections) -> u64 {
 fn main() -> std::io::Result<()> {
     let mut adapters = parse_input()?;
 
-    let (elapsed, result) = elapsed::measure_time(|| {
+    aoc_utils::measure_and_print(|| {
         adapters.push(0);
         adapters.sort_unstable();
         adapters.push(adapters.last().unwrap() + 3);
@@ -65,9 +65,6 @@ fn main() -> std::io::Result<()> {
 
         traverse_connections(&adapters, &connections)
     });
-
-    eprintln!("{}", elapsed);
-    println!("{}", result);
 
     Ok(())
 }

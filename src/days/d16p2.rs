@@ -108,7 +108,7 @@ fn transpose(table: Vec<Vec<u64>>) -> Vec<Vec<u64>> {
 fn main() -> std::io::Result<()> {
     let (reqs, tickets, my_ticket) = parse_input()?;
 
-    let (elapsed, result): (_, u64) = elapsed::measure_time(|| {
+    aoc_utils::measure_and_print(|| {
         let valid = tickets
             .into_iter()
             .filter(|ticket| ticket.iter().all(|&v| reqs.iter().any(|r| r.is_valid(v))))
@@ -146,9 +146,6 @@ fn main() -> std::io::Result<()> {
 
         result
     });
-
-    eprintln!("{}", elapsed);
-    println!("{}", result);
 
     Ok(())
 }

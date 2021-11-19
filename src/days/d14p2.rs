@@ -133,16 +133,13 @@ impl DockingComputer {
 fn main() -> std::io::Result<()> {
     let init_program = parse_input()?;
 
-    let (elapsed, result) = elapsed::measure_time(|| {
+    aoc_utils::measure_and_print(|| {
         let mut computer = DockingComputer::new(init_program);
 
         computer.execute();
 
         computer.memory_summed()
     });
-
-    eprintln!("{}", elapsed);
-    println!("{}", result);
 
     Ok(())
 }

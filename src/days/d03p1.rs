@@ -21,7 +21,7 @@ fn main() -> std::io::Result<()> {
     let vertical_dist = land_map.len();
     let horizontal_dist = land_map[0].len();
 
-    let (elapsed, n_trees) = elapsed::measure_time(|| {
+    aoc_utils::measure_and_print(|| {
         get_slope(3, 1)
             .take_while(|&(_, y)| y < vertical_dist)
             .filter(|&(x, y)| {
@@ -32,9 +32,6 @@ fn main() -> std::io::Result<()> {
             })
             .count()
     });
-
-    eprintln!("{}", elapsed);
-    println!("{}", n_trees);
 
     Ok(())
 }

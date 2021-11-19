@@ -53,7 +53,7 @@ fn mod_inverse(n: i64, modulus: i64) -> i64 {
 fn main() -> std::io::Result<()> {
     let constraints = parse_input()?;
 
-    let (elapsed, result): (_, i64) = elapsed::measure_time(|| {
+    aoc_utils::measure_and_print(|| {
         let modulus: i64 = constraints.iter().map(|&(_, id)| id).product();
 
         // calculated with the Chinese Remainder Theory
@@ -70,9 +70,6 @@ fn main() -> std::io::Result<()> {
 
         departure % modulus
     });
-
-    eprintln!("{}", elapsed);
-    println!("{}", result);
 
     Ok(())
 }

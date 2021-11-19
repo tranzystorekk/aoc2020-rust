@@ -2,7 +2,7 @@
 name = "aoc2020-rust"
 version = "0.1.0"
 authors = ["Marcin Puc <marcin.e.puc@gmail.com>"]
-edition = "2018"
+edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -199,8 +199,7 @@ name = "d25p1"
 path = "src/days/d25p1.rs"
 
 [dependencies]
-aoc-utils = "0.2.1"
-elapsed = "0.1.2"
+aoc-utils = "0.4.0"
 hex2d = { version = "1.0.0", default-features = false }
 itertools = "0.10.0"
 lazy_static = "1.4.0"

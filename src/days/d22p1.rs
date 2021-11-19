@@ -45,15 +45,12 @@ fn play_combat(mut player1: Deck, mut player2: Deck) -> usize {
 fn main() -> std::io::Result<()> {
     let (mut player1, mut player2) = parse_input()?;
 
-    let (elapsed, result) = elapsed::measure_time(|| {
+    aoc_utils::measure_and_print(|| {
         player1.reserve(player1.len());
         player2.reserve(player2.len());
 
         play_combat(player1, player2)
     });
-
-    eprintln!("{}", elapsed);
-    println!("{}", result);
 
     Ok(())
 }

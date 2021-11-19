@@ -20,11 +20,7 @@ fn to_id(pass: &str) -> i32 {
 fn main() -> std::io::Result<()> {
     let passes = parse_input()?;
 
-    let (elapsed, max_id) =
-        elapsed::measure_time(|| passes.iter().map(|pass| to_id(pass)).max().unwrap());
-
-    eprintln!("{}", elapsed);
-    println!("{}", max_id);
+    aoc_utils::measure_and_print(|| passes.iter().map(|pass| to_id(pass)).max().unwrap());
 
     Ok(())
 }

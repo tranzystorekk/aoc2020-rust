@@ -87,16 +87,13 @@ fn main() -> std::io::Result<()> {
     let rows = parse_input()?;
     let (width, height) = (rows[0].len() as i32, rows.len() as i32);
 
-    let (elapsed, result) = elapsed::measure_time(|| {
+    aoc_utils::measure_and_print(|| {
         let grid = prepare_grid(rows);
 
         let stabilized = stabilize_traffic(grid, width, height);
 
         stabilized.values().filter(|&&occupied| occupied).count()
     });
-
-    eprintln!("{}", elapsed);
-    println!("{}", result);
 
     Ok(())
 }

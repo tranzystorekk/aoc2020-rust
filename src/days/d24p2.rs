@@ -111,16 +111,13 @@ fn run_exhibit(initial: Floor, n: usize) -> Floor {
 fn main() -> std::io::Result<()> {
     let lines = parse_input()?;
 
-    let (elapsed, result) = elapsed::measure_time(|| {
+    aoc_utils::measure_and_print(|| {
         let init = prepare_floor(lines);
 
         let after_exhibit = run_exhibit(init, 100);
 
         after_exhibit.values().filter(|&&color| color).count()
     });
-
-    eprintln!("{}", elapsed);
-    println!("{}", result);
 
     Ok(())
 }

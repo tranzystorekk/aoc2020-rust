@@ -12,7 +12,7 @@ fn main() -> std::io::Result<()> {
     let records = parse_input()?;
     let mut remainders = HashSet::new();
 
-    let (elapsed, result) = elapsed::measure_time(|| {
+    aoc_utils::measure_and_print(|| {
         let second = records
             .into_iter()
             .find(|&entry| {
@@ -28,9 +28,6 @@ fn main() -> std::io::Result<()> {
         let first = 2020 - second;
         first * second
     });
-
-    eprintln!("{}", elapsed);
-    println!("{}", result);
 
     Ok(())
 }

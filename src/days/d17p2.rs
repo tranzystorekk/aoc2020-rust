@@ -88,16 +88,13 @@ fn run_cycles(initial: Grid, n: usize) -> Grid {
 fn main() -> std::io::Result<()> {
     let rows = parse_input()?;
 
-    let (elapsed, result) = elapsed::measure_time(|| {
+    aoc_utils::measure_and_print(|| {
         let grid = prepare_grid(rows);
 
         let booted = run_cycles(grid, 6);
 
         booted.values().filter(|&&state| state).count()
     });
-
-    eprintln!("{}", elapsed);
-    println!("{}", result);
 
     Ok(())
 }

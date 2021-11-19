@@ -50,7 +50,7 @@ fn find_contiguous_sum(partials: &[u64], sum: u64) -> Option<(usize, usize)> {
 fn main() -> std::io::Result<()> {
     let encrypted = parse_input()?;
 
-    let (elapsed, result) = elapsed::measure_time(|| {
+    aoc_utils::measure_and_print(|| {
         let searched = encrypted
             .windows(26)
             .find_map(|w| {
@@ -79,9 +79,6 @@ fn main() -> std::io::Result<()> {
 
         min + max
     });
-
-    eprintln!("{}", elapsed);
-    println!("{}", result);
 
     Ok(())
 }

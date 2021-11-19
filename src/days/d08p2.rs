@@ -99,7 +99,7 @@ fn main() -> std::io::Result<()> {
     use Instr::*;
     let boot_code = parse_input()?;
 
-    let (elapsed, result) = elapsed::measure_time(|| {
+    aoc_utils::measure_and_print(|| {
         boot_code
             .iter()
             .enumerate()
@@ -120,9 +120,6 @@ fn main() -> std::io::Result<()> {
             })
             .unwrap()
     });
-
-    eprintln!("{}", elapsed);
-    println!("{}", result);
 
     Ok(())
 }

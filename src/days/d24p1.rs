@@ -49,7 +49,7 @@ fn tile_line(description: &str) -> impl Iterator<Item = Direction> + '_ {
 fn main() -> std::io::Result<()> {
     let lines = parse_input()?;
 
-    let (elapsed, result) = elapsed::measure_time(|| {
+    aoc_utils::measure_and_print(|| {
         let mut floor = Floor::new();
 
         for line in lines {
@@ -61,9 +61,6 @@ fn main() -> std::io::Result<()> {
 
         floor.values().filter(|&&color| color).count()
     });
-
-    eprintln!("{}", elapsed);
-    println!("{}", result);
 
     Ok(())
 }

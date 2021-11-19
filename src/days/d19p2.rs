@@ -93,7 +93,7 @@ fn check_matches(rules: &Rules, message: &[u8]) -> bool {
 fn main() -> std::io::Result<()> {
     let (mut rules, messages) = parse_input()?;
 
-    let (elapsed, result) = elapsed::measure_time(|| {
+    aoc_utils::measure_and_print(|| {
         let rule_8 = vec![Rule::Compound(vec![42]), Rule::Compound(vec![42, 8])];
         let rule_11 = vec![
             Rule::Compound(vec![42, 31]),
@@ -108,9 +108,6 @@ fn main() -> std::io::Result<()> {
             .filter(|m| check_matches(&rules, m))
             .count()
     });
-
-    eprintln!("{}", elapsed);
-    println!("{}", result);
 
     Ok(())
 }

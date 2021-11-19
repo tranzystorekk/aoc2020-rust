@@ -29,7 +29,7 @@ fn try_sum_two(first: i32, records: &[i32]) -> Option<(i32, i32, i32)> {
 fn main() -> std::io::Result<()> {
     let records = parse_input()?;
 
-    let (elapsed, result) = elapsed::measure_time(|| {
+    aoc_utils::measure_and_print(|| {
         let (first, second, third) = records
             .iter()
             .find_map(|&first| try_sum_two(first, &records))
@@ -37,9 +37,6 @@ fn main() -> std::io::Result<()> {
 
         first * second * third
     });
-
-    eprintln!("{}", elapsed);
-    println!("{}", result);
 
     Ok(())
 }

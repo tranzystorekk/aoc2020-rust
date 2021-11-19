@@ -66,10 +66,7 @@ fn validate(validated: &MaybePassport) -> bool {
 fn main() -> std::io::Result<()> {
     let passes = parse_input()?;
 
-    let (elapsed, n_valid) = elapsed::measure_time(|| passes.into_iter().filter(validate).count());
-
-    eprintln!("{}", elapsed);
-    println!("{}", n_valid);
+    aoc_utils::measure_and_print(|| passes.into_iter().filter(validate).count());
 
     Ok(())
 }

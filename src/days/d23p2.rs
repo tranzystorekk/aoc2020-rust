@@ -103,7 +103,7 @@ fn play_cups(mut list: Vec<usize>, current: usize, n: usize) -> Vec<usize> {
 fn main() -> std::io::Result<()> {
     let cups = parse_input()?;
 
-    let (elapsed, result) = elapsed::measure_time(|| {
+    aoc_utils::measure_and_print(|| {
         let (start, list) = prepare_list(cups);
 
         let after = play_cups(list, start, 10_000_000);
@@ -112,9 +112,6 @@ fn main() -> std::io::Result<()> {
 
         first * second
     });
-
-    eprintln!("{}", elapsed);
-    println!("{}", result);
 
     Ok(())
 }

@@ -21,7 +21,7 @@ fn to_id(pass: &str) -> i32 {
 fn main() -> std::io::Result<()> {
     let passes = parse_input()?;
 
-    let (elapsed, missing_id) = elapsed::measure_time(|| {
+    aoc_utils::measure_and_print(|| {
         passes
             .iter()
             .map(|pass| to_id(pass))
@@ -30,9 +30,6 @@ fn main() -> std::io::Result<()> {
             .find_map(|(a, b)| (b != a + 1).then(|| a + 1))
             .unwrap()
     });
-
-    eprintln!("{}", elapsed);
-    println!("{}", missing_id);
 
     Ok(())
 }

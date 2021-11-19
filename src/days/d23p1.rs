@@ -68,7 +68,7 @@ fn play_cups(initial: Vec<u32>, n: usize) -> (Vec<u32>, usize) {
 fn main() -> std::io::Result<()> {
     let cups = parse_input()?;
 
-    let (elapsed, result) = elapsed::measure_time(|| {
+    aoc_utils::measure_and_print(|| {
         let (res, _) = play_cups(cups, 100);
 
         let pos = res.iter().position(|&v| v == 1).unwrap();
@@ -76,9 +76,6 @@ fn main() -> std::io::Result<()> {
 
         labels
     });
-
-    eprintln!("{}", elapsed);
-    println!("{}", result);
 
     Ok(())
 }

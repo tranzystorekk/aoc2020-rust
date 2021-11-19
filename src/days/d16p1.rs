@@ -62,11 +62,9 @@ impl Requirements {
 fn main() -> std::io::Result<()> {
     let (reqs, tickets) = parse_input()?;
 
-    let (elapsed, result): (_, i32) =
-        elapsed::measure_time(|| tickets.iter().map(|ticket| reqs.error_rate(ticket)).sum());
-
-    eprintln!("{}", elapsed);
-    println!("{}", result);
+    aoc_utils::measure_and_print::<i32, _>(|| {
+        tickets.iter().map(|ticket| reqs.error_rate(ticket)).sum()
+    });
 
     Ok(())
 }

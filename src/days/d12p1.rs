@@ -92,7 +92,7 @@ impl NavigationChip {
 fn main() -> std::io::Result<()> {
     let navigation = parse_input()?;
 
-    let (elapsed, result) = elapsed::measure_time(|| {
+    aoc_utils::measure_and_print(|| {
         let mut chip = NavigationChip::new();
 
         for instr in navigation {
@@ -101,9 +101,6 @@ fn main() -> std::io::Result<()> {
 
         chip.manhattan()
     });
-
-    eprintln!("{}", elapsed);
-    println!("{}", result);
 
     Ok(())
 }

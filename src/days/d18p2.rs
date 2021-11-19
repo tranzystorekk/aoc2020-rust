@@ -98,7 +98,7 @@ fn eval(rpn: Vec<Op>) -> u64 {
 fn main() -> std::io::Result<()> {
     let exprs = parse_input()?;
 
-    let (elapsed, result): (_, u64) = elapsed::measure_time(|| {
+    aoc_utils::measure_and_print::<u64, _>(|| {
         exprs
             .into_iter()
             .map(|expr| {
@@ -107,9 +107,6 @@ fn main() -> std::io::Result<()> {
             })
             .sum()
     });
-
-    eprintln!("{}", elapsed);
-    println!("{}", result);
 
     Ok(())
 }

@@ -20,7 +20,7 @@ fn parse_input() -> std::io::Result<(i32, Vec<i32>)> {
 fn main() -> std::io::Result<()> {
     let (earliest, buses) = parse_input()?;
 
-    let (elapsed, result) = elapsed::measure_time(|| {
+    aoc_utils::measure_and_print(|| {
         let (id, departure) = buses
             .into_iter()
             .map(|id| {
@@ -37,9 +37,6 @@ fn main() -> std::io::Result<()> {
 
         id * departure
     });
-
-    eprintln!("{}", elapsed);
-    println!("{}", result);
 
     Ok(())
 }

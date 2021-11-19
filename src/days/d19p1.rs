@@ -93,15 +93,12 @@ fn check_matches(rules: &Rules, message: &[u8]) -> bool {
 fn main() -> std::io::Result<()> {
     let (rules, messages) = parse_input()?;
 
-    let (elapsed, result) = elapsed::measure_time(|| {
+    aoc_utils::measure_and_print(|| {
         messages
             .into_iter()
             .filter(|m| check_matches(&rules, m))
             .count()
     });
-
-    eprintln!("{}", elapsed);
-    println!("{}", result);
 
     Ok(())
 }
