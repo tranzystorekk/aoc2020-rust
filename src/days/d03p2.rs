@@ -43,8 +43,8 @@ fn main() -> std::io::Result<()> {
 
     aoc_utils::measure_and_print::<usize, _>(|| {
         [(1, 1), (3, 1), (5, 1), (7, 1), (1, 2)]
-            .iter()
-            .map(|&(w, h)| land.count_slope_trees(w, h))
+            .into_iter()
+            .map(|(w, h)| land.count_slope_trees(w, h))
             .product()
     });
 

@@ -62,7 +62,7 @@ fn main() -> std::io::Result<()> {
             })
             .unwrap();
 
-        let partial_sums: Vec<_> = itertools::chain(std::iter::once(&0), &encrypted)
+        let partial_sums: Vec<_> = itertools::chain([&0], &encrypted)
             .scan(0, |acc, v| {
                 *acc += v;
                 Some(*acc)
